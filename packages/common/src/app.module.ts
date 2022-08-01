@@ -1,3 +1,3 @@
 export function Test(){
-  console.log('Test function')
+  console.log('Test function 1')
 }
