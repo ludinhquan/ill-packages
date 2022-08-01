@@ -5,6 +5,6 @@ import { Module } from '@nestjs/common';
 })
 export class AppModule {
   constructor(){
-    console.log('AppModule')
+    console.log('AppModule 1')
   }
 }

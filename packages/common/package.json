@@ -1,9 +1,8 @@
 {
   "name": "@ilotustech/common",
-  "version": "0.0.3",
+  "version": "0.0.1",
   "description": "",
   "author": "",
-  "private": true,
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -68,7 +67,9 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   },
+  "repository": "https://github.com/ludinhquan/ill-packages",
   "publishConfig": {
-    "@ilotustech:registry": "https://npm.pkg.github.com"
+    "access": "public",
+    "@ludinhquan:registry": "https://npm.pkg.github.com/ludinquan"
   }
 }
