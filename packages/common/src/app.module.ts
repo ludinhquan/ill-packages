@@ -1,5 +1,3 @@
-export class AppModule {
-  constructor(){
-    console.log('AppModule 1')
-  }
+export function Test(){
+  console.log('Test function')
 }

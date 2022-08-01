@@ -1,2 +1,1 @@
-import { AppModule } from './app.module';
-export {AppModule}
+export { Test } from './app.module';
