@@ -1,0 +1,10 @@
+{
+  "name": "@ilotustech/core",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^5.3.0"
+  }
+}
