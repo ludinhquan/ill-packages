@@ -77,5 +77,6 @@
   "publishConfig": {
     "access": "public",
     "@ludinhquan:registry": "https://npm.pkg.github.com/ludinquan"
-  }
+  },
+  "gitHead": "d180afd390df089da476d82eaf3a32bb0b981e18"
 }

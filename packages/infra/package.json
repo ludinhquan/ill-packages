@@ -75,5 +75,10 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "repository": "https://github.com/ludinhquan/ill-packages",
+  "publishConfig": {
+    "access": "public",
+    "@ludinhquan:registry": "https://npm.pkg.github.com/ludinquan"
   }
 }
