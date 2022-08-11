@@ -1,6 +1,6 @@
 {
   "name": "@ilotustech/infra",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "author": "",
   "license": "UNLICENSED",
@@ -22,7 +22,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@ilotustech/common": "^0.0.14",
+    "@ilotustech/common": "^0.0.15",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^8.0.0",
