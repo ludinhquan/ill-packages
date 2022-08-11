@@ -3,9 +3,9 @@ import {
   IEventBus, 
   IEventBusSubscriptionsManager, 
   IIntegrationEventHandler, 
-  IntegrationEvent
+  IntegrationEvent, 
+  Type
 } from "@ilotustech/common";
-import {Type} from "@ilotustech/common";
 import {Channel, Connection, Options} from "amqplib";
 
 export class RabbitMQEventBus implements IEventBus {

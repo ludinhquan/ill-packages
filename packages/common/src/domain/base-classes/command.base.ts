@@ -1,5 +1,4 @@
 import {ArgumentNotProvidedException} from '@exceptions';
-import { nanoid } from 'nanoid';
 import { Guard } from '../guard';
 import { UUID } from '../value-objects';
 
@@ -28,7 +27,7 @@ export class Command {
         'Command props should not be empty',
       );
     }
-    this.correlationId = props.correlationId || nanoid(8);
+    this.correlationId = props.correlationId || UUID.generate().unpack();
     this.id = props.id || UUID.generate().unpack();
   }
 }
