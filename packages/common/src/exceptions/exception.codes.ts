@@ -1,5 +1,5 @@
 /**
- * Adding a `code` string with a custom status code for every 
+ * Adding a `code` string with a custom status code for every
  * exception is a good practice, since when that exception
  * is transferred to another process `instanceof` check
  * cannot be performed anymore so a `code` string is used instead.

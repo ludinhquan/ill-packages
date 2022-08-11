@@ -9,8 +9,8 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"{src}/**/*.ts\" --fix"
   },
   "dependencies": {
     "@ilotustech/common": "0.0.15",

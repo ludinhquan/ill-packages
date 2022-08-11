@@ -4,7 +4,7 @@ import { Command } from './command.base';
 
 export abstract class CommandHandlerBase<
   CommandHandlerReturnType = unknown,
-  CommandHandlerError extends Error = Error
+  CommandHandlerError extends Error = Error,
 > {
   constructor(protected readonly unitOfWork: UnitOfWorkPort) {}
 

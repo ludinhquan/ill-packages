@@ -3,8 +3,8 @@ export interface SerializedException {
   code: string;
   stack?: string;
   metadata?: unknown;
-  /** 
-   * ^ Consider adding optional `metadata` object to 
+  /**
+   * ^ Consider adding optional `metadata` object to
    * exceptions (if language doesn't support anything
    * similar by default) and pass some useful technical
    * information about the exception when throwing.

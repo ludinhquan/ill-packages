@@ -1,1 +1,1 @@
-export * from './remove-undefined-props.util'
+export * from './remove-undefined-props.util';

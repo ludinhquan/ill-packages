@@ -1,4 +1,4 @@
-import {ArgumentNotProvidedException} from '@exceptions';
+import { ArgumentNotProvidedException } from '@exceptions';
 import { Guard } from '../guard';
 import { UUID } from '../value-objects';
 

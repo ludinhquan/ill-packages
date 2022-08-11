@@ -59,8 +59,8 @@ export interface DeleteOne<Entity> {
   delete(entity: Entity): Promise<Entity>;
 }
 
-export interface RepositoryPort<Entity, EntityProps> extends 
-    Save<Entity>,
+export interface RepositoryPort<Entity, EntityProps>
+  extends Save<Entity>,
     FindOne<Entity, EntityProps>,
     FindOneById<Entity>,
     FindMany<Entity, EntityProps>,
