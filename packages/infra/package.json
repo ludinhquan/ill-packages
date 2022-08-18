@@ -13,7 +13,7 @@
     "lint": "eslint \"{src}/**/*.ts\" --fix"
   },
   "dependencies": {
-    "@ilotustech/common": "0.0.15",
+    "@ilotustech/common": "0.1.1",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.2.0",
     "amqplib": "0.10.2",
