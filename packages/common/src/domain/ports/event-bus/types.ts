@@ -6,7 +6,7 @@ export enum EventBrokerType {
   RabbitMQ = 'RABBITMQ',
 }
 
-export const EVENT_BUS = Symbol('EVENT_BUS');
+export const EVENT_BUS = 'EVENT_BUS'
 
 export enum Subjects {
   DataReceived = 'data:received',
