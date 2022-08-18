@@ -1,0 +1,46 @@
+{
+  "name": "@ilotustech/event-bus",
+  "version": "0.1.2",
+  "description": "",
+  "author": "",
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"{src}/**/*.ts\" --fix"
+  },
+  "dependencies": {
+    "@ilotustech/common": "0.1.2",
+    "@nestjs/common": "^8.0.0",
+    "@nestjs/config": "^2.2.0",
+    "amqplib": "0.10.2",
+    "kafkajs": "2.1.0",
+    "reflect-metadata": "0.1.13",
+    "rimraf": "3.0.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "9.0.0",
+    "@types/amqplib": "0.8.2",
+    "@types/node": "16.0.0",
+    "@types/uuid": "8.3.4",
+    "@typescript-eslint/eslint-plugin": "5.0.0",
+    "@typescript-eslint/parser": "5.0.0",
+    "eslint": "8.0.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "prettier": "2.3.2",
+    "source-map-support": "0.5.20",
+    "ts-loader": "9.2.3",
+    "ts-node": "10.0.0",
+    "tsconfig-paths": "3.10.1",
+    "typescript": "4.3.5"
+  },
+  "repository": "https://github.com/ludinhquan/ill-packages",
+  "publishConfig": {
+    "access": "public",
+    "@ludinhquan:registry": "https://npm.pkg.github.com/ludinquan"
+  }
+}
