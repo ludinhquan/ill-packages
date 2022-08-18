@@ -1,4 +1,4 @@
-import { Result } from 'oxide.ts/dist';
+import { Result } from 'oxide.ts';
 import { UnitOfWorkPort } from '../ports/unit-of-work.port';
 import { Command } from './command.base';
 

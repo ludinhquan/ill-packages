@@ -1,4 +1,4 @@
-import { Result } from 'oxide.ts/dist';
+import { Result } from 'oxide.ts';
 import { IntegrationEvent } from '@domain';
 
 export interface IIntegrationEventHandler {
