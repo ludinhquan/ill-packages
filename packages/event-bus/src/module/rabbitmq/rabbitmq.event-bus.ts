@@ -21,7 +21,7 @@ export class RabbitMQEventBus implements IEventBus {
 
   private async setup(){
     this.channel = await this.getChannel()
-    const {events} = this.options
+    const {events = []} = this.options
     await Promise.all(events.map(async event => {
       const exchange = event.name;
       await this.channel.assertExchange(exchange, 'direct')

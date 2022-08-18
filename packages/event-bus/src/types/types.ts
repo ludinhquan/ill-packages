@@ -12,5 +12,5 @@ export enum Subjects {
 }
 
 export interface EventBusOptions {
-  events: ClassType<IntegrationEvent>[];
+  events?: ClassType<IntegrationEvent>[];
 }

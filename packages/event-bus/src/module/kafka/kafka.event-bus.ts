@@ -17,7 +17,7 @@ export class KafkaEventBus implements IEventBus {
   }
 
   async setup(){
-    const {events} = this.options
+    const {events = []} = this.options
     this.admin = this.kafkaClient.admin()
     this.producer = this.kafkaClient.producer()
     await this.admin.createTopics({topics: events.map(event => ({topic: event.name}))});
