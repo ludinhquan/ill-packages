@@ -1,6 +1,6 @@
 {
   "name": "@ilotustech/infra",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "author": "",
   "license": "UNLICENSED",
@@ -13,7 +13,7 @@
     "lint": "eslint \"{src}/**/*.ts\" --fix"
   },
   "dependencies": {
-    "@ilotustech/common": "0.1.1",
+    "@ilotustech/common": "^0.1.2",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.2.0",
     "amqplib": "0.10.2",
