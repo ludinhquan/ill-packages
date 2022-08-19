@@ -1,6 +1,6 @@
 import {UUID} from "@ilotustech/common";
 
-export class IntegrationEvent {
+export abstract class IntegrationEvent {
   public readonly id: string;
 
   public readonly dateOccurred: number;
@@ -14,4 +14,6 @@ export class IntegrationEvent {
     const { ...data } = this;
     return JSON.stringify(data);
   }
+  
+  abstract getTenantId(): string
 }
