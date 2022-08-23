@@ -1,4 +1,5 @@
 import {DynamicModule, Module, OnModuleDestroy, Provider} from "@nestjs/common";
+import {IntegrationEvent} from "src/events";
 import {EventBusConfig, EventBusEnum, EventBusModuleAsyncOptions, IEventBus, IEventBusSubscriptionsManager, KafkaOptions, RmqOptions} from "../intefaces";
 import {EventBusOptionToken, EventBusToken} from "./event-bus.constants";
 import {EventBusSubscriptionsManager} from "./event-bus.subscriptions-manager";
@@ -9,7 +10,7 @@ import {RabbitMQEventBus} from "./rabbitmq";
 export class EventBusModule implements OnModuleDestroy {
   private static eventBus: IEventBus
 
-  static registerAsync(options: EventBusModuleAsyncOptions): DynamicModule {
+  static forRoot(options: EventBusModuleAsyncOptions): DynamicModule {
     const customProvider: Provider = {
       provide: EventBusOptionToken,
       useFactory: options.useFactory,
@@ -37,8 +38,12 @@ export class EventBusModule implements OnModuleDestroy {
     }
   }
 
-  // static register(): DynamicModule {
-  // }
+  static async register(events: ClassType<IntegrationEvent>[]): Promise<DynamicModule> {
+    await EventBusModule.eventBus.register(events)
+    return {
+      module: EventBusModule,
+    }
+  }
 
   async onModuleDestroy() {
     await EventBusModule.eventBus.destroy()
