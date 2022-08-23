@@ -11,10 +11,10 @@ export class KafkaEventBus implements IEventBus {
   private consumerMap: Map<string, Consumer> = new Map()
 
   constructor(
+    private config: KafkaOptions,
     private subsManager: IEventBusSubscriptionsManager,
-    config: KafkaOptions,
   ) {
-    this.client = KafkaSingleton.getInstance(config.options)
+    this.client = KafkaSingleton.getInstance(this.config.options)
     this.setup(config)
   }
 
