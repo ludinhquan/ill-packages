@@ -5,9 +5,9 @@ export abstract class IntegrationEvent {
 
   public readonly dateOccurred: number;
 
-  constructor() {
-    this.id = UUID.generate().unpack();
-    this.dateOccurred = Date.now();
+  constructor(props?: {id?: string, dateOccurred?: number}) {
+    this.id = props?.id ?? UUID.generate().unpack();
+    this.dateOccurred = props?.dateOccurred ?? Date.now();
   }
 
   toString() {
