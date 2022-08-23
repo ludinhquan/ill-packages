@@ -1,34 +1,35 @@
-import {EventBusOptions, IEventBus, IEventBusSubscriptionsManager} from "../../types";
-import {IEventHandler, IntegrationEvent} from "../../events";
 import {Admin, Consumer, Kafka, Producer} from "kafkajs";
+import {IEventHandler, IntegrationEvent} from "../../events";
+import {IEventBus, IEventBusSubscriptionsManager, KafkaOptions} from "../../types";
+import {KafkaSingleton} from "./kafka.singleton";
 
 export class KafkaEventBus implements IEventBus {
+  private client: Kafka
+
   private admin: Admin
   private producer: Producer
   private consumerMap: Map<string, Consumer> = new Map()
 
   constructor(
-    private kafkaClient: Kafka,
     private subsManager: IEventBusSubscriptionsManager,
-    private options: EventBusOptions,
-    private application: string
+    config: KafkaOptions,
   ) {
-    this.setup()
+    this.client = KafkaSingleton.getInstance(config.options)
+    this.setup(config)
   }
 
-  async setup(){
-    const {events = []} = this.options
-    this.admin = this.kafkaClient.admin()
-    this.producer = this.kafkaClient.producer()
-    await this.admin.createTopics({topics: events.map(event => ({topic: event.name}))});
+  private async setup(config: KafkaOptions){
+    const {events = []} = config
+    this.admin = this.client.admin()
+    this.producer = this.client.producer()
+    this.admin.createTopics({topics: events.map(item => ({topic: item.name}))})
     await this.producer.connect();
   }
 
-  async getConsumer(event: ClassType<IntegrationEvent>, handler: IEventHandler): Promise<Consumer>{
+  private async getConsumer(event: ClassType<IntegrationEvent>, handler: IEventHandler): Promise<Consumer>{
     const consumerName = handler.constructor.name
     if (this.consumerMap.get(consumerName)) return this.consumerMap.get(consumerName)!;
-
-    const consumer = this.kafkaClient.consumer({groupId: consumerName});
+    const consumer = this.client.consumer({groupId: consumerName});
     consumer.subscribe({topic: event.name, fromBeginning: true})
     await consumer.connect()
     this.consumerMap.set(consumerName, consumer)

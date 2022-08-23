@@ -1,27 +1,25 @@
-import {EventBusOptions, IEventBus, IEventBusSubscriptionsManager} from "../../types";
+import {IEventBus, IEventBusSubscriptionsManager, RmqOptions} from "../../types";
 import {IEventHandler, IntegrationEvent} from "../../events";
 import {Channel, Connection, Options} from "amqplib";
+import {RabbitMQSingleton} from "./rabbitmq.singleton";
 
 export class RabbitMQEventBus implements IEventBus {
+  private connection: Connection
   private channel: Channel
   private subscribers: [ClassType<IntegrationEvent>, IEventHandler][] = []
 
   constructor(
-    private connection: Connection,
+    private config: RmqOptions,
     private subsManager: IEventBusSubscriptionsManager,
-    private options: EventBusOptions,
-    private application: string
   ) {
     this.setup()
   }
 
-  private getChannel(){
-    return this.connection.createChannel()
-  }
-
   private async setup(){
-    this.channel = await this.getChannel()
-    const {events = []} = this.options
+    const {options, events = []} = this.config
+    this.connection = await RabbitMQSingleton.getInstance(options)
+    this.channel = await this.connection.createChannel()
+
     await Promise.all(events.map(async event => {
       const exchange = event.name;
       await this.channel.assertExchange(exchange, 'direct')
@@ -42,7 +40,7 @@ export class RabbitMQEventBus implements IEventBus {
 
   async addSubscription(event: ClassType<IntegrationEvent>, handler: IEventHandler) {
     const exchange = event.name;
-    const queueName = [this.application, exchange, handler.constructor.name].join('.')
+    const queueName = [this.config.application, exchange, handler.constructor.name].join('.')
     await this.channel.assertQueue(queueName)
     await this.channel.bindQueue(queueName, exchange, '')
 
