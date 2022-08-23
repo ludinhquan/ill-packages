@@ -32,31 +32,13 @@ export class EventBusModule implements OnModuleDestroy {
       global: options.global,
       module: EventBusModule,
       imports: options.imports,
-      providers: [customProvider, eventBusProvider],
+      providers: [customProvider, eventBusProvider, EventBusSubscriptionsManager],
       exports: [EventBusToken],
     }
   }
 
-  static register(config: EventBusConfig): DynamicModule {
-    const eventBusFactory: Provider = {
-      provide: EventBusToken,
-      useFactory: async (subsManager: IEventBusSubscriptionsManager) => {
-        if (config.type === EventBusEnum.Kafka)
-          this.eventBus = new KafkaEventBus(config as KafkaOptions, subsManager)
-        if (config.type === EventBusEnum.RabbitMQ)
-          this.eventBus = new RabbitMQEventBus(config as RmqOptions, subsManager)
-      },
-      inject: [EventBusSubscriptionsManager],
-    }
-
-    return {
-      global: true,
-      module: EventBusModule,
-      imports: [],
-      providers: [eventBusFactory, EventBusSubscriptionsManager],
-      exports: [eventBusFactory],
-    }
-  }
+  // static register(): DynamicModule {
+  // }
 
   async onModuleDestroy() {
     await EventBusModule.eventBus.destroy()
