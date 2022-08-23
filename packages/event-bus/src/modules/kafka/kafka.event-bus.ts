@@ -1,11 +1,10 @@
 import {Admin, Consumer, Kafka, Producer} from "kafkajs";
 import {IEventHandler, IntegrationEvent} from "../../events";
-import {IEventBus, IEventBusSubscriptionsManager, KafkaOptions} from "../../types";
+import {IEventBus, IEventBusSubscriptionsManager, KafkaOptions} from "../../intefaces";
 import {KafkaSingleton} from "./kafka.singleton";
 
 export class KafkaEventBus implements IEventBus {
   private client: Kafka
-
   private admin: Admin
   private producer: Producer
   private consumerMap: Map<string, Consumer> = new Map()
@@ -14,19 +13,17 @@ export class KafkaEventBus implements IEventBus {
     private config: KafkaOptions,
     private subsManager: IEventBusSubscriptionsManager,
   ) {
-    this.client = KafkaSingleton.getInstance(this.config.options)
-    this.setup(config)
+    this.setup()
   }
 
-  private async setup(config: KafkaOptions){
-    const {events = []} = config
+  private async setup() {
+    this.client = KafkaSingleton.getInstance(this.config.options)
     this.admin = this.client.admin()
     this.producer = this.client.producer()
-    this.admin.createTopics({topics: events.map(item => ({topic: item.name}))})
     await this.producer.connect();
   }
 
-  private async getConsumer(event: ClassType<IntegrationEvent>, handler: IEventHandler): Promise<Consumer>{
+  private async getConsumer(event: ClassType<IntegrationEvent>, handler: IEventHandler): Promise<Consumer> {
     const consumerName = handler.constructor.name
     if (this.consumerMap.get(consumerName)) return this.consumerMap.get(consumerName)!;
     const consumer = this.client.consumer({groupId: consumerName});
@@ -34,6 +31,10 @@ export class KafkaEventBus implements IEventBus {
     await consumer.connect()
     this.consumerMap.set(consumerName, consumer)
     return consumer
+  }
+
+  public async register(events: ClassType<IntegrationEvent>[]) {
+    await this.admin.createTopics({topics: events.map(item => ({topic: item.name}))})
   }
 
   async publish(event: IntegrationEvent) {
@@ -49,15 +50,15 @@ export class KafkaEventBus implements IEventBus {
     consumer.run({
       autoCommit: false,
       eachMessage: async (payload) => {
-        try{
+        try {
           const message = payload.message.value?.toString() ?? ''
           const data = new event(JSON.parse(message))
           const result = await handler.handle(data)
           console.log(payload.topic, handler.constructor.name)
-          if(result.isOk()) await consumer.commitOffsets([
+          if (result.isOk()) await consumer.commitOffsets([
             {topic: payload.topic, partition: payload.partition, offset: payload.message.offset}
           ])
-        }catch(e){}
+        } catch (e) {}
       }
     })
   }
@@ -67,6 +68,6 @@ export class KafkaEventBus implements IEventBus {
       this.admin.disconnect(),
       this.producer.disconnect(),
       [...this.consumerMap].map(([consumer]) => this.consumerMap.get(consumer)?.disconnect())
-    ]) 
+    ])
   }
 }

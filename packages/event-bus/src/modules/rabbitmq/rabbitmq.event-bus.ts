@@ -1,11 +1,11 @@
-import {IEventBus, IEventBusSubscriptionsManager, RmqOptions} from "../../types";
+import {IEventBus, IEventBusSubscriptionsManager, RmqOptions} from "../../intefaces";
 import {IEventHandler, IntegrationEvent} from "../../events";
 import {Channel, Connection, Options} from "amqplib";
 import {RabbitMQSingleton} from "./rabbitmq.singleton";
 
 export class RabbitMQEventBus implements IEventBus {
-  private connection: Connection
   private channel: Channel
+  private connection: Connection
   private subscribers: [ClassType<IntegrationEvent>, IEventHandler][] = []
 
   constructor(
@@ -16,15 +16,10 @@ export class RabbitMQEventBus implements IEventBus {
   }
 
   private async setup(){
-    const {options, events = []} = this.config
+    const {options} = this.config
     this.connection = await RabbitMQSingleton.getInstance(options)
     this.channel = await this.connection.createChannel()
-
-    await Promise.all(events.map(async event => {
-      const exchange = event.name;
-      await this.channel.assertExchange(exchange, 'direct')
-    }));
-  
+ 
     while(this.subscribers.length > 0){
       const events = this.subscribers.pop()
       if(!events) return
@@ -32,15 +27,9 @@ export class RabbitMQEventBus implements IEventBus {
     }
   }
 
-  async publish(event: IntegrationEvent) {
-    const exchange = event.constructor.name
-    const basicOptions: Options.Publish = {deliveryMode: 2, mandatory: true}
-    this.channel.publish(exchange, '', Buffer.from(event.toString()), basicOptions)
-  }
-
-  async addSubscription(event: ClassType<IntegrationEvent>, handler: IEventHandler) {
+  private async addSubscription(event: ClassType<IntegrationEvent>, handler: IEventHandler) {
     const exchange = event.name;
-    const queueName = [this.config.application, exchange, handler.constructor.name].join('.')
+    const queueName = [exchange, handler.constructor.name].join('.')
     await this.channel.assertQueue(queueName)
     await this.channel.bindQueue(queueName, exchange, '')
 
@@ -56,7 +45,20 @@ export class RabbitMQEventBus implements IEventBus {
     })
   }
 
-  async subscribe(event: ClassType<IntegrationEvent>, handler: IEventHandler) {
+  public async register(events: ClassType<IntegrationEvent>[]) {
+    await Promise.all(events.map(async event => {
+      const exchange = event.name;
+      await this.channel.assertExchange(exchange, 'direct')
+    }));
+  }
+
+  public async publish(event: IntegrationEvent) {
+    const exchange = event.constructor.name
+    const basicOptions: Options.Publish = {deliveryMode: 2, mandatory: true}
+    this.channel.publish(exchange, '', Buffer.from(event.toString()), basicOptions)
+  }
+
+  public async subscribe(event: ClassType<IntegrationEvent>, handler: IEventHandler) {
     this.subsManager.addSubscription(event, handler);
     if(!this.channel) {
       this.subscribers.push([event, handler]);
@@ -65,7 +67,7 @@ export class RabbitMQEventBus implements IEventBus {
     this.addSubscription(event, handler);
   }
 
-  async destroy(){
+  public async destroy(){
     await this.channel.close()
     await this.connection.close()
   }

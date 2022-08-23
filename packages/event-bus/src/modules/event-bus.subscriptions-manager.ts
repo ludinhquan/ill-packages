@@ -1,5 +1,5 @@
 import {Injectable} from "@nestjs/common";
-import {IEventBusSubscriptionsManager} from "../types";
+import {IEventBusSubscriptionsManager} from "../intefaces";
 import {IEventHandler, IntegrationEvent} from "../events";
 
 @Injectable({})

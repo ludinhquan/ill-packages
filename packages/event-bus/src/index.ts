@@ -1,3 +1,3 @@
-export * from './module'
+export * from './modules'
 export * from './events'
-export * from './types'
+export * from './intefaces'

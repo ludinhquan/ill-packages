@@ -1,3 +1,4 @@
+import {ModuleMetadata} from "@nestjs/common";
 import {Options} from "amqplib";
 import {KafkaConfig} from 'kafkajs';
 import {IntegrationEvent} from '../events';
@@ -9,19 +10,22 @@ export enum EventBusEnum {
 
 export declare type EventBusConfig = KafkaOptions | RmqOptions
 
-export interface KafkaOptions extends EventBusEvents {
+export interface KafkaOptions {
   type: EventBusEnum.Kafka,
   options: KafkaConfig,
 }
 
-export interface RmqOptions extends EventBusEvents {
-  application: string,
+export interface RmqOptions {
   type: EventBusEnum.RabbitMQ,
-  options: Options.Connect
+  options: string | Options.Connect
 }
 
-export const EventBusToken = Symbol('EventBus')
-
-export interface EventBusEvents {
+export interface EventBusRegisterEvents {
   events?: ClassType<IntegrationEvent>[];
+}
+
+export interface EventBusModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+  global?: boolean,
+  inject?: any[]
+  useFactory: (...args: any[]) => EventBusConfig,
 }

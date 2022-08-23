@@ -5,5 +5,7 @@ export interface IEventBus {
 
   subscribe(event: ClassType<IntegrationEvent>, handler: IEventHandler): void;
 
+  register(events: ClassType<IntegrationEvent>[]): void;
+
   destroy(): Promise<void>;
 }

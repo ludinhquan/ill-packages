@@ -15,10 +15,8 @@
   "dependencies": {
     "@ilotustech/common": "0.1.2",
     "@nestjs/common": "^8.0.0",
-    "@nestjs/config": "^2.2.0",
     "amqplib": "0.10.2",
     "kafkajs": "2.1.0",
-    "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2"
   },
   "devDependencies": {
