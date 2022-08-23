@@ -49,7 +49,7 @@ export class RabbitMQEventBus implements IEventBus {
   public async register(events: ClassType<IntegrationEvent>[]) {
     await Promise.all(events.map(async event => {
       const exchange = event.name;
-      console.log(`Creating RabbitMQ exchange ${exchange} to publish event ${event.name}`)
+      console.log(`Creating RabbitMQ exchange ${exchange}`)
       await this.channel.assertExchange(exchange, 'direct')
     }));
   }
@@ -57,7 +57,7 @@ export class RabbitMQEventBus implements IEventBus {
   public async publish(event: IntegrationEvent) {
     const exchange = event.constructor.name
     const basicOptions: Options.Publish = {deliveryMode: 2, mandatory: true}
-    console.log(`Publishing event to RabbitMQ: ${event.id}`);
+    console.log(`Publishing event ${exchange} to RabbitMQ with event id ${event.id}`);
     this.channel.publish(exchange, '', Buffer.from(event.toString()), basicOptions)
   }
 
