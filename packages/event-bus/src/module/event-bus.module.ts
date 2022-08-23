@@ -1,6 +1,6 @@
 import {DynamicModule, Module, OnModuleDestroy, Provider} from "@nestjs/common";
 import {ConfigModule, ConfigService} from "@nestjs/config";
-import {EventBrokerType, EventBusOptions, EVENT_BUS, IEventBus, IEventBusSubscriptionsManager} from "@type";
+import {EventBrokerType, EventBusOptions, EVENT_BUS, IEventBus, IEventBusSubscriptionsManager} from "../types";
 import {EventBusSubscriptionsManager} from "./event-bus.subscriptions-manager";
 import {KafkaEventBus, KafkaSingleton} from "./kafka";
 import {RabbitMQEventBus, RabbitMQSingleton} from "./rabbitmq";

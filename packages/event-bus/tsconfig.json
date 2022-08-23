@@ -13,14 +13,6 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@event": [
-        "src/events"
-      ],
-      "@type": [
-        "src/types"
-      ]
-    }
+    "skipLibCheck": true
   }
 }

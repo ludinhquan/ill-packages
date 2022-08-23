@@ -1,5 +1,5 @@
-import {EventBusOptions, IEventBus, IEventBusSubscriptionsManager} from "@type";
-import {IEventHandler, IntegrationEvent} from "@event";
+import {EventBusOptions, IEventBus, IEventBusSubscriptionsManager} from "../../types";
+import {IEventHandler, IntegrationEvent} from "../../events";
 import {Channel, Connection, Options} from "amqplib";
 
 export class RabbitMQEventBus implements IEventBus {

@@ -1,4 +1,4 @@
-import { IntegrationEvent } from '@event';
+import { IntegrationEvent } from '../events';
 
 export enum EventBrokerType {
   Kafka = 'KAFKA',

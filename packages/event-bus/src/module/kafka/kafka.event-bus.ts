@@ -1,5 +1,5 @@
-import {EventBusOptions, IEventBus, IEventBusSubscriptionsManager} from "@type";
-import {IEventHandler, IntegrationEvent} from "@event";
+import {EventBusOptions, IEventBus, IEventBusSubscriptionsManager} from "../../types";
+import {IEventHandler, IntegrationEvent} from "../../events";
 import {Admin, Consumer, Kafka, Producer} from "kafkajs";
 
 export class KafkaEventBus implements IEventBus {

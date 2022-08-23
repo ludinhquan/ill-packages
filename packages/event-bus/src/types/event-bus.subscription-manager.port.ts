@@ -1,4 +1,4 @@
-import {IEventHandler, IntegrationEvent} from '@event';
+import {IEventHandler, IntegrationEvent} from '../events';
 
 export interface IEventBusSubscriptionsManager {
   addSubscription(
