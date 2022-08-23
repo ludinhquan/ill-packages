@@ -25,6 +25,7 @@ export class EventBusModule implements OnModuleDestroy {
           return
         }
         this.eventBus = new RabbitMQEventBus(config as RmqOptions, subsManager)
+        return this.eventBus
       },
       inject: [EventBusOptionToken, EventBusSubscriptionsManager],
     }

@@ -36,6 +36,7 @@ export class RabbitMQEventBus implements IEventBus {
     this.channel.consume(queueName, async (msg) => {
       if (!msg) return
       const eventData = new event(JSON.parse(msg.content.toString()))
+      console.log(`Processing RabbitMQ event: ${event.name}`, eventData.id);
       try {
         const result = await handler.handle(eventData)
         if (result.isOk()) this.channel.ack(msg)
@@ -48,6 +49,7 @@ export class RabbitMQEventBus implements IEventBus {
   public async register(events: ClassType<IntegrationEvent>[]) {
     await Promise.all(events.map(async event => {
       const exchange = event.name;
+      console.log(`Creating RabbitMQ exchange ${exchange} to publish event ${event.name}`)
       await this.channel.assertExchange(exchange, 'direct')
     }));
   }
@@ -55,10 +57,12 @@ export class RabbitMQEventBus implements IEventBus {
   public async publish(event: IntegrationEvent) {
     const exchange = event.constructor.name
     const basicOptions: Options.Publish = {deliveryMode: 2, mandatory: true}
+    console.log(`Publishing event to RabbitMQ: ${event.id}`);
     this.channel.publish(exchange, '', Buffer.from(event.toString()), basicOptions)
   }
 
   public async subscribe(event: ClassType<IntegrationEvent>, handler: IEventHandler) {
+    console.log(`Subscribing to event ${event.name} with ${handler.constructor.name}`);
     this.subsManager.addSubscription(event, handler);
     if(!this.channel) {
       this.subscribers.push([event, handler]);
