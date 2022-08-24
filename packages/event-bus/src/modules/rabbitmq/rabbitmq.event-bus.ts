@@ -47,11 +47,15 @@ export class RabbitMQEventBus implements IEventBus {
   }
 
   public async register(events: ClassType<IntegrationEvent>[]) {
-    await Promise.all(events.map(async event => {
-      const exchange = event.name;
-      console.log(`Creating RabbitMQ exchange ${exchange}`)
-      await this.channel.assertExchange(exchange, 'direct')
-    }));
+    const timeInterval = setInterval(async () => {
+      if (!this.channel) return
+      await Promise.all(events.map(async event => {
+        const exchange = event.name;
+        console.log(`Creating RabbitMQ exchange ${exchange}`)
+        await this.channel.assertExchange(exchange, 'direct')
+      }));
+      clearInterval(timeInterval)
+    });
   }
 
   public async publish(event: IntegrationEvent) {
