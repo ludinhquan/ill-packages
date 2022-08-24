@@ -5,8 +5,8 @@
     "packages/*"
   ],
   "scripts": {
-    "prepublish": "lerna run build",
-    "publish": "lerna publish"
+    "bootstrap": "lerna exec npm install",
+    "publish": "lerna publish --force-publish"
   },
   "devDependencies": {
     "lerna": "^5.3.0"
