@@ -76,7 +76,7 @@ export class RabbitMQEventBus implements IEventBus {
   }
 
   public async destroy(){
-    await this.channel.close()
-    await this.connection.close()
+    if(this.channel) await this.channel.close()
+    if(this.connection) await this.connection.close()
   }
 }
