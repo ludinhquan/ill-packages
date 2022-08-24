@@ -7,7 +7,7 @@
   "scripts": {
     "bootstrap": "lerna exec npm install",
     "prepublish": "lerna run build",
-    "publish": "lerna publish --force-publish"
+    "publish": "lerna publish"
   },
   "devDependencies": {
     "lerna": "^5.3.0"

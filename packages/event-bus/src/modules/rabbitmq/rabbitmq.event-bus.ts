@@ -36,7 +36,7 @@ export class RabbitMQEventBus implements IEventBus {
     this.channel.consume(queueName, async (msg) => {
       if (!msg) return
       const eventData = new event(JSON.parse(msg.content.toString()))
-      console.log(`Processing RabbitMQ event: ${event.name}`, eventData.id);
+      console.log(`[${handler.constructor.name}] Processing RabbitMQ event: ${event.name}`, eventData.id);
       try {
         const result = await handler.handle(eventData)
         if (result.isOk()) this.channel.ack(msg)
