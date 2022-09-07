@@ -2,16 +2,15 @@ import {IEventBus, IEventBusSubscriptionsManager, RmqOptions} from "../../intefa
 import {IEventHandler, IntegrationEvent} from "../../events";
 import {Channel, Connection, Options} from "amqplib";
 import {RabbitMQSingleton} from "./rabbitmq.singleton";
+import {EventBusSubscriptionsManager} from "../event-bus.subscriptions-manager";
 
 export class RabbitMQEventBus implements IEventBus {
   private channel: Channel
   private connection: Connection
   private subscribers: [ClassType<IntegrationEvent>, IEventHandler][] = []
+  private subsManager: IEventBusSubscriptionsManager = new EventBusSubscriptionsManager()
 
-  constructor(
-    private config: RmqOptions,
-    private subsManager: IEventBusSubscriptionsManager,
-  ) {
+  constructor(private config: RmqOptions) {
     this.setup()
   }
 

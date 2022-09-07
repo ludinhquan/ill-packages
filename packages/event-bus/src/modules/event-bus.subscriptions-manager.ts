@@ -1,8 +1,6 @@
-import {Injectable} from "@nestjs/common";
 import {IEventBusSubscriptionsManager} from "../intefaces";
 import {IEventHandler, IntegrationEvent} from "../events";
 
-@Injectable({})
 export class EventBusSubscriptionsManager implements IEventBusSubscriptionsManager{
   private handlers: Map<string, IEventHandler[]> = new Map()
 

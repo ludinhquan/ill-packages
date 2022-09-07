@@ -1,8 +1,7 @@
 import {DynamicModule, Module, OnModuleDestroy, Provider} from "@nestjs/common";
 import {IntegrationEvent} from "src/events";
-import {EventBusConfig, EventBusEnum, EventBusModuleAsyncOptions, IEventBus, IEventBusSubscriptionsManager, KafkaOptions, RmqOptions} from "../intefaces";
+import {EventBusConfig, EventBusEnum, EventBusModuleAsyncOptions, IEventBus, KafkaOptions, RmqOptions} from "../intefaces";
 import {EventBusOptionToken, EventBusToken} from "./event-bus.constants";
-import {EventBusSubscriptionsManager} from "./event-bus.subscriptions-manager";
 import {KafkaEventBus} from "./kafka";
 import {RabbitMQEventBus} from "./rabbitmq";
  
@@ -19,22 +18,22 @@ export class EventBusModule implements OnModuleDestroy {
 
     const eventBusProvider: Provider = {
       provide: EventBusToken,
-      useFactory: async (config: EventBusConfig, subsManager: IEventBusSubscriptionsManager) => {
+      useFactory: async (config: EventBusConfig) => {
         if (config.type === EventBusEnum.Kafka) {
-          this.eventBus = new KafkaEventBus(config as KafkaOptions, subsManager)
+          this.eventBus = new KafkaEventBus(config as KafkaOptions)
           return
         }
-        this.eventBus = new RabbitMQEventBus(config as RmqOptions, subsManager)
+        this.eventBus = new RabbitMQEventBus(config as RmqOptions)
         return this.eventBus
       },
-      inject: [EventBusOptionToken, EventBusSubscriptionsManager],
+      inject: [EventBusOptionToken],
     }
 
     return {
       global: options.global,
       module: EventBusModule,
       imports: options.imports,
-      providers: [customProvider, eventBusProvider, EventBusSubscriptionsManager],
+      providers: [customProvider, eventBusProvider],
       exports: [EventBusToken],
     }
   }

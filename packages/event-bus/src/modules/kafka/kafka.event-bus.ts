@@ -1,6 +1,7 @@
 import {Admin, Consumer, Kafka, Producer} from "kafkajs";
 import {IEventHandler, IntegrationEvent} from "../../events";
 import {IEventBus, IEventBusSubscriptionsManager, KafkaOptions} from "../../intefaces";
+import {EventBusSubscriptionsManager} from "../event-bus.subscriptions-manager";
 import {KafkaSingleton} from "./kafka.singleton";
 
 export class KafkaEventBus implements IEventBus {
@@ -8,10 +9,10 @@ export class KafkaEventBus implements IEventBus {
   private admin: Admin
   private producer: Producer
   private consumerMap: Map<string, Consumer> = new Map()
+  private subsManager: IEventBusSubscriptionsManager = new EventBusSubscriptionsManager()
 
   constructor(
     private config: KafkaOptions,
-    private subsManager: IEventBusSubscriptionsManager,
   ) {
     this.setup()
   }
