@@ -1,4 +1,3 @@
-import {ModuleMetadata} from "@nestjs/common";
 import {Options} from "amqplib";
 import {KafkaConfig} from 'kafkajs';
 import {IntegrationEvent} from '../events';
@@ -24,8 +23,8 @@ export interface EventBusRegisterEvents {
   events?: ClassType<IntegrationEvent>[];
 }
 
-export interface EventBusModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
-  global?: boolean,
-  inject?: any[]
-  useFactory: (...args: any[]) => EventBusConfig,
-}
+// export interface EventBusModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+//   global?: boolean,
+//   inject?: any[]
+//   useFactory: (...args: any[]) => EventBusConfig,
+// }

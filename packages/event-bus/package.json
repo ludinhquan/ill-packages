@@ -13,13 +13,11 @@
     "lint": "eslint \"{src}/**/*.ts\" --fix"
   },
   "dependencies": {
-    "@nestjs/common": "^8.0.0",
     "amqplib": "0.10.2",
     "kafkajs": "2.1.0",
     "rimraf": "3.0.2"
   },
   "devDependencies": {
-    "@nestjs/cli": "9.0.0",
     "@types/amqplib": "0.8.2",
     "@types/node": "16.0.0",
     "@types/uuid": "8.3.4",
